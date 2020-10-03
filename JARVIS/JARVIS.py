@@ -13,6 +13,7 @@ from datetime import datetime  # datetime module supplies classes for manipulati
 import subprocess  # subprocess module allows you to spawn new processes
 from playsound import *  #for sound output
 import speech_recognition as sr  # speech_recognition Library for performing speech recognition with support for Google Speech Recognition, etc..
+import datetime #For greeting the user
 
 # pip install pyttsx3                  
 # need to run only once to install the library
@@ -36,6 +37,17 @@ def voice(p):
     myobj=gTTS(text=p,lang='en',slow=False)
     myobj.save('try.mp3')
     playsound('try.mp3')
+
+# For greeting the user, by datetime module
+def WishMe():
+    hour = int(datetime.datetime.now().hour)
+    if hour>=0 and hour <12:
+        speak("Good Morning")
+    elif hour>=12 and hour <18:
+        speak("Good Afternoon")
+    else:
+        speak("Good Night")
+    speak("This is your pc sir, please tell me how are you")
     
 # recognize speech using Google Speech Recognition
 Query = r.recognize_google(audio, language = 'en-IN', show_all = True )
@@ -87,3 +99,25 @@ def get_app(Q):
     return
 # Call get_app(Query) Func.
 get_app(Query)
+
+
+# For opening websites
+if __name__ == "__main__":
+    WishMe()
+    query = takecommand().lower()
+
+    if "wikipedia" in query:
+        speak("searching wikipedia")
+        query = query.replace("Wikipedia","")
+        results = wikipedia.summary(query,sentences=2)
+        speak("According to Wikipedia")
+        speak(results)
+    elif 'open youtube' in query:
+        webbrowser.open('youtube.com')
+    elif 'open google' in query:
+        webbrowser.open("google.com")
+    elif 'open stack overflow' in query:
+        webbrowser.open('stackoverflow.com')
+    else:
+        pass
+#Just like this(above) more websites can be added as well
